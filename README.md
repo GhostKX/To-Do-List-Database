@@ -105,4 +105,4 @@ The system consists of well-structured functions for task management:
 ## Author
 
 - Developed by **GhostKX**
-- GitHub: **[GhostKX](https://github.com/GhostKX/To-Do-List-Database**)
+- GitHub: **[GhostKX](https://github.com/GhostKX/To-Do-List-Database)**
