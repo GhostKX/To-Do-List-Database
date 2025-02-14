@@ -1,3 +1,5 @@
+# To Do List Database
+
 import sqlite3
 from datetime import datetime, timedelta
 import time
@@ -5,9 +7,11 @@ import threading
 from plyer import notification
 import subprocess
 
+# Establish connection with SQLite database
 connection = sqlite3.connect('to_do_list_database.db')
 sql = connection.cursor()
 
+# Create a table if it doesn't exist
 sql.execute('''CREATE TABLE IF NOT EXISTS to_do_tasks (
             task_id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_name TEXT NOT NULL,
@@ -19,6 +23,7 @@ sql.execute('''CREATE TABLE IF NOT EXISTS to_do_tasks (
 connection.commit()
 
 
+# Function to set a task reminder based on user choice
 def task_remind(user_name, task_name, task_description, task_reminder_choice):
     while True:
         if task_reminder_choice == '1':
@@ -92,6 +97,7 @@ def task_remind(user_name, task_name, task_description, task_reminder_choice):
                   '\nPlease try again')
 
 
+# Function to check if a task name already exists
 def task_name_check(task_name):
     isTrue = True
     check = sql.execute('SELECT task_name from to_do_tasks where task_name = ?', (task_name,)).fetchone()
@@ -102,6 +108,7 @@ def task_name_check(task_name):
         pass
 
 
+# Function to create a new task
 def create_new_task():
     while True:
         user_name = input('\n\n(Press "0" anytime to go back)'
@@ -151,6 +158,7 @@ def create_new_task():
                       '\nPlease try again')
 
 
+# Function to display all tasks for a specific user
 def view_all_tasks(user_name):
     tasks = sql.execute('''SELECT * FROM to_do_tasks where user_name = ?''', (user_name,)).fetchall()
     if tasks:
@@ -164,6 +172,7 @@ def view_all_tasks(user_name):
               '\nPlease try again')
 
 
+# Function to edit task details
 def edit_tasks(user_name, task_name):
     edit_task = sql.execute('''SELECT * FROM to_do_tasks WHERE user_name = ? and task_name = ?''',
                             (user_name, task_name)).fetchone()
@@ -254,6 +263,7 @@ def edit_tasks(user_name, task_name):
               '\nPlease try again')
 
 
+# Function to delete tasks
 def delete_tasks(user_name, task_name):
     delete_task = sql.execute('''SELECT * FROM to_do_tasks WHERE user_name = ? and task_name = ?''',
                               (user_name, task_name)).fetchone()
@@ -324,6 +334,7 @@ def check_for_reminders():
         time.sleep(60)  # Check every 60 seconds
 
 
+# Start reminder checking thread
 if __name__ == "__main__":
     reminder_thread = threading.Thread(target=check_for_reminders, daemon=True)
     reminder_thread.start()
