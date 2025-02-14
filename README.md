@@ -49,7 +49,7 @@ The system provides the following options:
 - **Exit**: Close the application.  
 
 
-## Example
+## Example Usage Scenario
 ```
 **********************************************
 Welcome to the To-Do List Application!
